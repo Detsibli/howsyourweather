@@ -14,7 +14,7 @@ git clone https://github.com/detsibli/hows-your-weather.git
 
 3. Type a city name into the search field and click "Search" to view the weather.
 
-No installation or API key is required — everything runs in the browser.
+No installation or API key is required, everything runs in the browser.
 
 ## License
 

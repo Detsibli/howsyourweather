@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How's Your Weather?</title>
+
+    <!-- 7.css for Windows 7 UI -->
+    <link rel="stylesheet" href="https://unpkg.com/7.css" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: url("/assets/bg.jpg") center/cover no-repeat;
+        font-family: sans-serif;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .window {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        min-width: 280px;
+        max-width: 95vw;
+        width: 420px;
+        max-height: 85vh;
+        border: 1px solid #888;
+        background-color: #fff;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .window-body {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px;
+        overflow-y: auto;
+      }
+
+      .weather-card {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        padding: 8px;
+        margin: 4px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+      }
+
+      .weather-card p {
+        margin: 2px 6px;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      #weatherHome,
+      #weatherForecast,
+      #weatherMaps {
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+
+      #readmeContent {
+        width: 100%;
+        height: 400px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      #searchWindow {
+        max-height: none;
+      }
+
+      #searchWindow .window-body {
+        overflow: visible;
+      }
+
+      .searchbox {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+      }
+
+      .searchbox .top-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .searchbox .bottom-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .searchbox input,
+      .searchbox select,
+      .searchbox button {
+        flex: 1 1 auto;
+        min-width: 100px;
+      }
+
+      .searchbox button {
+        flex: 0 0 100px;
+      }
+
+      .autocomplete-dropdown {
+        box-sizing: border-box;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #888;
+        max-height: 180px;
+        overflow-y: auto;
+        position: absolute;
+        top: 38px;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        font-size: 13px;
+      }
+
+      .autocomplete-dropdown div {
+        padding: 4px 8px;
+        cursor: pointer;
+      }
+
+      .autocomplete-dropdown div:hover {
+        background-color: #0a64ad;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- README Window -->
+    <div class="window draggable" id="appHeaderWindow" style="top: 20px; left: 20px">
+      <div class="title-bar">
+        <div class="title-bar-text">How's Your Weather? - README</div>
+        <div class="title-bar-controls">
+          <button class="title-bar-btn" aria-label="Minimize">_</button>
+          <button class="title-bar-btn" aria-label="Maximize">□</button>
+          <button class="title-bar-btn" aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <pre id="readmeContent">Loading README...</pre>
+      </div>
+    </div>
+
+    <!-- Search Window -->
+    <div class="window draggable" id="searchWindow" style="top: 20px; left: 450px">
+      <div class="title-bar">
+        <div class="title-bar-text">Search Location</div>
+        <div class="title-bar-controls">
+          <button class="title-bar-btn" aria-label="Minimize">_</button>
+          <button class="title-bar-btn" aria-label="Maximize">□</button>
+          <button class="title-bar-btn" aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <form id="searchForm" class="searchbox" autocomplete="off">
+          <div class="top-row">
+            <select id="unitSelect">
+              <option value="celsius">Celsius (°C)</option>
+              <option value="fahrenheit" selected>Fahrenheit (°F)</option>
+            </select>
+            <select id="speedUnitSelect">
+              <option value="kmh">km/h</option>
+              <option value="mph" selected>m/h</option>
+            </select>
+          </div>
+          <div class="bottom-row">
+            <input type="search" id="locationInput" placeholder="City, State, Country" required />
+            <button type="submit" class="btn">Search</button>
+          </div>
+        </form>
+        <progress id="searchProgress" value="0" max="100" style="width:100%;display:none"></progress>
+      </div>
+    </div>
+
+    <!-- Weather Windows -->
+    <div class="window draggable" id="currentWindow" style="display:none; top:20px; left:900px">
+      <div class="title-bar"><div class="title-bar-text">Current Weather</div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize">_</button>
+          <button aria-label="Maximize">□</button>
+          <button aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="window-body" id="weatherHome"></div>
+    </div>
+
+    <div class="window draggable" id="hourlyWindow" style="display:none; top:350px; left:20px">
+      <div class="title-bar"><div class="title-bar-text">Hourly Forecast</div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize">_</button>
+          <button aria-label="Maximize">□</button>
+          <button aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="window-body" id="weatherForecast"></div>
+    </div>
+
+    <div class="window draggable" id="weeklyWindow" style="display:none; top:350px; left:450px">
+      <div class="title-bar"><div class="title-bar-text">Weekly Forecast</div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize">_</button>
+          <button aria-label="Maximize">□</button>
+          <button aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="window-body" id="weatherMaps"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="readme.js"></script>
+    <script src="windows.js"></script>
+  </body>
+</html>

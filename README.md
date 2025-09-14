@@ -1,5 +1,7 @@
 # How's Your Weather
 
+![Screenshot](assets/screenshot.png)
+
 **How's Your Weather** is a retro Windows 7-style weather app built with [7.css](https://github.com/khang-nd/7.css) and powered by the [Open-Meteo API](https://open-meteo.com/). Enter a city name to see current weather, wind speed, and precipitation.
 
 ## Running the Webpage

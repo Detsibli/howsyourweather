@@ -141,10 +141,14 @@
     </style>
   </head>
   <body>
-    <!-- README Window -->
-    <div class="window draggable" id="appHeaderWindow" style="top: 20px; left: 20px">
+    <!-- How to Use Window -->
+    <div
+      class="window draggable"
+      id="appHeaderWindow"
+      style="top: 20px; left: 20px"
+    >
       <div class="title-bar">
-        <div class="title-bar-text">How's Your Weather? - README</div>
+        <div class="title-bar-text">How's Your Weather? - How to Use</div>
         <div class="title-bar-controls">
           <button class="title-bar-btn" aria-label="Minimize">_</button>
           <button class="title-bar-btn" aria-label="Maximize">□</button>
@@ -152,12 +156,33 @@
         </div>
       </div>
       <div class="window-body">
-        <pre id="readmeContent">Loading README...</pre>
+        <p>
+Welcome to How's Your Weather! A simple interactive weather app using 7.css and the Open-Meteo API.<br><br>
+How to Use:<br><br>
+1. Search for a Location:<br>
+- Enter a city or town and press Enter or click Search.<br><br>
+2. View Weather Data:<br>
+- Current: Temperature, wind, precipitation.<br>
+- Hourly: Forecast for the next few hours.<br>
+- Weekly: Max/min temperatures, sunrise/sunset, total precipitation.<br><br>
+3. Navigation:<br>
+- Click Current, Hourly, or Weekly windows to switch views.<br>
+- Data updates automatically for the selected location.<br><br>
+4. Units:<br>
+- Temperature: Celsius or Fahrenheit.<br>
+- Wind: km/h or mph.<br><br>
+Enjoy exploring the weather!
+
+        </p>
       </div>
     </div>
 
     <!-- Search Window -->
-    <div class="window draggable" id="searchWindow" style="top: 20px; left: 450px">
+    <div
+      class="window draggable"
+      id="searchWindow"
+      style="top: 20px; left: 450px"
+    >
       <div class="title-bar">
         <div class="title-bar-text">Search Location</div>
         <div class="title-bar-controls">
@@ -179,17 +204,32 @@
             </select>
           </div>
           <div class="bottom-row">
-            <input type="search" id="locationInput" placeholder="City, State, Country" required />
+            <input
+              type="search"
+              id="locationInput"
+              placeholder="City, State, Country"
+              required
+            />
             <button type="submit" class="btn">Search</button>
           </div>
         </form>
-        <progress id="searchProgress" value="0" max="100" style="width:100%;display:none"></progress>
+        <progress
+          id="searchProgress"
+          value="0"
+          max="100"
+          style="width: 100%; display: none"
+        ></progress>
       </div>
     </div>
 
     <!-- Weather Windows -->
-    <div class="window draggable" id="currentWindow" style="display:none; top:20px; left:900px">
-      <div class="title-bar"><div class="title-bar-text">Current Weather</div>
+    <div
+      class="window draggable"
+      id="currentWindow"
+      style="display: none; top: 20px; left: 900px"
+    >
+      <div class="title-bar">
+        <div class="title-bar-text">Current Weather</div>
         <div class="title-bar-controls">
           <button aria-label="Minimize">_</button>
           <button aria-label="Maximize">□</button>
@@ -199,8 +239,13 @@
       <div class="window-body" id="weatherHome"></div>
     </div>
 
-    <div class="window draggable" id="hourlyWindow" style="display:none; top:350px; left:20px">
-      <div class="title-bar"><div class="title-bar-text">Hourly Forecast</div>
+    <div
+      class="window draggable"
+      id="hourlyWindow"
+      style="display: none; top: 350px; left: 20px"
+    >
+      <div class="title-bar">
+        <div class="title-bar-text">Hourly Forecast</div>
         <div class="title-bar-controls">
           <button aria-label="Minimize">_</button>
           <button aria-label="Maximize">□</button>
@@ -210,8 +255,13 @@
       <div class="window-body" id="weatherForecast"></div>
     </div>
 
-    <div class="window draggable" id="weeklyWindow" style="display:none; top:350px; left:450px">
-      <div class="title-bar"><div class="title-bar-text">Weekly Forecast</div>
+    <div
+      class="window draggable"
+      id="weeklyWindow"
+      style="display: none; top: 350px; left: 450px"
+    >
+      <div class="title-bar">
+        <div class="title-bar-text">Weekly Forecast</div>
         <div class="title-bar-controls">
           <button aria-label="Minimize">_</button>
           <button aria-label="Maximize">□</button>
@@ -223,7 +273,6 @@
 
     <!-- Scripts -->
     <script src="script.js"></script>
-    <script src="readme.js"></script>
     <script src="windows.js"></script>
   </body>
 </html>

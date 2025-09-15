@@ -12,12 +12,23 @@
       body {
         margin: 0;
         padding: 0;
-        background: url("https://wallpapercave.com/wp/wp3511735.jpg") center/cover no-repeat;
+        background: url("https://wallpapercave.com/wp/wp3511735.jpg")
+          center/cover no-repeat fixed; /* fixed = stays like wallpaper */
         font-family: sans-serif;
-        height: 100vh;
-        width: 100vw;
-        overflow: hidden;
-        position: relative;
+        min-height: 100vh; /* always at least screen height */
+        width: 100%;
+        overflow-x: hidden; /* prevent sideways scroll */
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.25); /* dim background */
+        z-index: -1;
       }
 
       .window {
@@ -138,6 +149,41 @@
         background-color: #0a64ad;
         color: #fff;
       }
+
+      /* --- Responsive Layout --- */
+      @media (max-width: 768px) {
+        body {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          overflow-y: auto;
+        }
+
+        .window {
+          position: relative !important; /* stop absolute placement */
+          width: 90% !important; /* fit mobile width */
+          max-width: 500px;
+          margin: 10px 0;
+        }
+
+        .searchbox .top-row,
+        .searchbox .bottom-row {
+          flex-direction: column;
+        }
+
+        .searchbox input,
+        .searchbox select,
+        .searchbox button {
+          width: 100%;
+          flex: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        html {
+          font-size: 14px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -157,22 +203,23 @@
       </div>
       <div class="window-body">
         <p>
-Welcome to How's Your Weather! A simple interactive weather app using 7.css and the Open-Meteo API.<br><br>
-How to Use:<br><br>
-1. Search for a Location:<br>
-- Enter a city or town and press Enter or click Search.<br><br>
-2. View Weather Data:<br>
-- Current: Temperature, wind, precipitation.<br>
-- Hourly: Forecast for the next few hours.<br>
-- Weekly: Max/min temperatures, sunrise/sunset, total precipitation.<br><br>
-3. Navigation:<br>
-- Click Current, Hourly, or Weekly windows to switch views.<br>
-- Data updates automatically for the selected location.<br><br>
-4. Units:<br>
-- Temperature: Celsius or Fahrenheit.<br>
-- Wind: km/h or mph.<br><br>
-Enjoy exploring the weather!
-
+          Welcome to How's Your Weather! A simple interactive weather app using
+          7.css and the Open-Meteo API.<br /><br />
+          How to Use:<br /><br />
+          1. Search for a Location:<br />
+          - Enter a city or town and press Enter or click Search.<br /><br />
+          2. View Weather Data:<br />
+          - Current: Temperature, wind, precipitation.<br />
+          - Hourly: Forecast for the next few hours.<br />
+          - Weekly: Max/min temperatures, sunrise/sunset, total
+          precipitation.<br /><br />
+          3. Navigation:<br />
+          - Click Current, Hourly, or Weekly windows to switch views.<br />
+          - Data updates automatically for the selected location.<br /><br />
+          4. Units:<br />
+          - Temperature: Celsius or Fahrenheit.<br />
+          - Wind: km/h or mph.<br /><br />
+          Enjoy exploring the weather!
         </p>
       </div>
     </div>
